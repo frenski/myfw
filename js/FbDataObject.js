@@ -8,7 +8,10 @@ FbDataObject = function () {
   // private
   // --------------------------------------------------------------------------
   
-  var dxPic = 2; //Spead for pictures scale animation 
+  //Spead for pictures scale animation 
+  var dxPic = 2; 
+  //Max pictures to show if a lot for one one country
+  var maxFriends = 50;
   
   //the function puts the information of the user into a JSON object
   var getMyself = function(me){
@@ -95,12 +98,15 @@ FbDataObject = function () {
       var picdxAngle = 1;
       var picRadius = 10;
       var picAngle = 0;
-      for(var i=0;i<myFriends[cntFriends[j].name].length;i++){
+      var maxToShow = myFriends[cntFriends[j].name].length;
+      //reduces the max pics to show if they are a lot
+      if(maxToShow > 50) maxToShow = 50;
+      for(var i=0;i<maxToShow;i++){
         var picDistX = Math.round(picRadius*Math.cos(picAngle));
         var picDistY = Math.round(picRadius*Math.sin(picAngle));
         picXPos = dotCenterX + picDistX;
         picYPos = dotCenterY + picDistY;
-        picRadius+=(picdxRadius-Math.round((i/myFriends[cntFriends[j].name].length)*5));
+        picRadius+=(picdxRadius-Math.round((i/maxToShow)*5));
         picAngle+=picdxAngle;
         picFriends[j].push(
           new ProfPictures(myFriends[cntFriends[j].name][i].picture, 
