@@ -228,5 +228,9 @@ FbDataObject = function () {
   this.logout = function(){
     alert('You have successfully logged out!');
   }
+  
+  this.postToAlbum = function(){
+    //use this http://forum.developers.facebook.net/viewtopic.php?pid=243907
+  }
 
 };

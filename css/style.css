@@ -109,7 +109,7 @@ header{
 }
 
 h1{
-  font-family:League;
+  font-family:League, Impact, Helvetica, Arial;
   color: #fff;
   font-size:28px;
   position:absolute;
