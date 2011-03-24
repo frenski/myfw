@@ -1,0 +1,79 @@
+<!doctype html>  
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>My Friends World</title>
+  <meta name="description" content="">
+  <meta name="author" content="Yane Frenski">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/facebox.css">
+  
+  <style>
+	#m1{
+		width:400px;
+		height:300px;
+		background-color:#adf;
+	}
+	canvas{
+		width:100%;
+		height:100%;
+	}
+	#show_me{float:left;width:100px;}
+	#console_log{font-size:10px;float:right;}
+  </style>
+  
+  <script src="js/libs/modernizr-1.6.min.js"></script>
+
+</head>
+
+<body>
+  
+  <img id="show_me" />
+	<div id="console_log">Log:</div>
+  
+  <div id="fb-root"></div>
+  
+  <div id="main">
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
+  <script src="js/libs/facebox.js"></script>
+  <script src="js/libs/imagesq.js"></script>
+  
+  <script>
+		imagesQueue = imagesQ;
+
+		imagesQueue.queue_images(['http://profile.ak.fbcdn.net/hprofile-ak-snc4/161097_765472618_3399530_n.jpg',
+								  'http://photos-h.ak.fbcdn.net/hphotos-ak-snc6/168085_491691767258_777852258_5855573_8044474_a.jpg',
+								   'http://photos-g.ak.fbcdn.net/hphotos-ak-ash1/163611_1761455997368_1268120285_2016803_6774072_a.jpg',
+								   'http://photos-e.ak.fbcdn.net/hphotos-ak-snc4/156384_10150329488450207_565000206_15735442_2566931_a.jpg',
+									'http://photos-c.ak.fbcdn.net/hphotos-ak-snc4/58960_473574751557_558596557_7088845_4966829_a.jpg',
+									'http://photos-c.ak.fbcdn.net/hphotos-ak-snc4/58711_473291571538_603466538_7057882_2370045_a.jpg',
+									'http://photos-g.ak.fbcdn.net/hphotos-ak-snc3/18161_413019930580_515580580_10695006_7157257_a.jpg',
+									'http://img4.sportal.bg/uploads/galery/2011_03/galata_fener/images/7.jpg',
+									'http://img4.sportal.bg/uploads/galery/2011_03/barca_arsenal/images/58.jpg',
+									'http://img4.sportal.bg/uploads/galery/2011_03/barca_arsenal/images/2.jpg']); 
+		imagesQueue.process_queue();
+
+		imagesQueue.onComplete = function()
+		{
+			alert("are");
+		}
+
+	</script>
+
+</body>
+</html>

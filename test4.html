@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>JS SDK Test</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Yane Frenski">
+</head>
+<body>
+
+<div id="fb-root"></div>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+     <script>
+       //var did = '507343854';
+       FB.init({ 
+            appId:'173394062703226', cookie:true, 
+            status:true, xfbml:true 
+         });
+       	FB.login(function(response) {
+		  if (response.session) {
+		    if (response.perms) {
+               getFriends();
+		    } else {
+		      // user is logged in, but did not grant any permissions
+		    }
+		  } else {
+		    getFriends();
+		  }
+		}, {perms:'publish_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
+		
+		function putFriends(thefriends){
+			for(i=0;i<thefriends.length;i++){
+				document.getElementById('thediv').innerHTML += '<img src="'+thefriends[i].pic_square+'"/> '+thefriends[i].name +": "+ thefriends[i].current_location.country + "<br/>";
+			}
+		}
+	
+       function getFriends(){
+         var query = FB.Data.query('SELECT name,current_location,pic_square FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) AND current_location>0');
+		 query.wait(function(rows) {
+			putFriends(rows);
+		 });
+        }
+       function logout(){
+          alert('You have successfully logged out!');
+       }
+      </script>
+      <fb:login-button>Login with Facebook</fb:login-button>
+
+<div style="margin-top:30px;" id="thediv"></div>
+</body>
+</html>
