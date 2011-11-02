@@ -14,7 +14,7 @@
   <meta name="author" content="Yane Frenski">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <link rel="stylesheet" href="css/style.css?v=2">
@@ -54,12 +54,17 @@
       </div>
 
       <div id="div-owner">
-        <h2>Yane Frenski</h2>
-        <h3>456 friends in 21 countries</h3>
+        <h2 id="header-owner-name"></h2>
+        <h3 id="header-owner-info"></h3>
       </div>
 
-      <div id="div-fb-publish">
-        <a href="">Publish on Facebook</a>
+      <div id="div-fb-unpublished" class="fb-publish">
+        Publish on Facebook
+      </div>
+      
+      <div id="div-fb-published" class="fb-publish">
+        Posting, please wait<br/>
+        <img src="images/loading2.gif" />
       </div>
       
       <div id="thediv">
@@ -103,15 +108,62 @@
   
     //initiates a connection with the facebook app
     FB.init({ 
+      appId:'173394062703226',
+      cookie:true, 
+      status:true,
+      xfbml:true,
+      channelURL : 'http://localhost/myfw/channel.php',
+      oauth: true
+    });
+    
+    /* Old - withouth OAuth2 ******************
+    FB.init({ 
       appId:'173394062703226', cookie:true, 
       status:true, xfbml:true 
     });
+    */
     
     $(document).ready(function($) {
+      //Other elements - the box and the button
       $.facebox({ div: '#div-waitbox' });
     });
     
       
+    FB.login(function(response) {
+      if (response.authResponse) {
+        //there is a session
+          var fbdata = new FbDataObject();
+          fbdata.getFbData();
+        } else {
+        //user is logged in, but did not grant any permissions
+          $("#div-waitbox").append('<div class="attention_note">You need grant special access to the application</strong>');
+        }
+    }, {scope:'publish_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
+    
+    
+    $('div#div-fb-unpublished').click(function(){
+      $('div#div-fb-published').show();
+      $('div#div-fb-unpublished').hide();
+      var canv1 = document.getElementById("canv1"); //Canvas element
+      var canvasData = canv1.toDataURL("image/png");
+      $.ajax({
+          type: "POST",
+          url: "sendpic.php?text2="+$('#header-owner-info').html(),
+          data: canvasData,
+          contentType: "application/upload; charset=utf-8",
+          success: function(data){
+            $('div#div-fb-published').html(data);
+          }
+      });
+      
+      // var ajax = new XMLHttpRequest();
+      // ajax.open("POST",'sendpic.php',false);
+      // ajax.setRequestHeader('Content-Type', 'application/upload');
+      // ajax.send(canvasData);
+    });
+    
+    
+    /* Old - withouth OAuth2 ******************
     FB.login(function(response) {
       if (response.session) {
         //there is a session
@@ -127,7 +179,7 @@
         $("#div-waitbox").append('<div class="attention_note">You need to login to Facebook first</strong>');
       }
     }, {perms:'publish_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
-  
+  */
   
   //change the UA-XXXXX-X to be your site's ID
    var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];

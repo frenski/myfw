@@ -196,6 +196,17 @@ FbDataObject = function () {
       var mySelf = getMyself(dataMe.value);
       var myFriends = getFriends(dataFriends.value);
       
+      //Sets the texts for the title
+      //TODO: Check if I am not doing the same loop twice
+      var clength = 0;
+      var flength = 0;
+      for(var somecountry in myFriends){
+        clength++;
+        for(var somefriend in myFriends[somecountry]) flength++;
+      }
+      $('#header-owner-name').html(mySelf.name);
+      $('#header-owner-info').html(flength+' friends in '+clength+' countries');
+      
       //Preloads all the profile pictures
       var allProfPicLoad = new Array();  
       var imagesQueue = imagesQ;

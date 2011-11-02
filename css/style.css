@@ -182,10 +182,10 @@ h4{
   text-align:left;
 }
 
-#div-fb-publish{
+.fb-publish{
   position:absolute;
   z-index:24;
-  top:400px;
+  top:450px;
   left:12%;
   width:171px;
   height:44px;
@@ -196,12 +196,15 @@ h4{
   font-size:11px;
 }
 
-#div-fb-publish a:link, #div-fb-publish a:active, #div-fb-publish a:visited{
-  color:#fff;
+#div-fb-published{
+  z-index:25;
+  display:none;
+  height:50px;
+  padding-top:22px;
 }
 
-#div-fb-publish a:hover{
-  color:#ccc;
+#div-fb-unpublished{
+  cursor:pointer;
 }
 
 #div-waitbox{
