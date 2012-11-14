@@ -13,7 +13,7 @@ CountryDots = function (csize,bsize,di,cname) {
   this.w = Math.round((csize/bsize)*5)+5;
   this.h = this.w;
   this.connectLineWith = 0.8;
-  this.connectLineColor = '#b441ce';
+  this.connectLineColor = '#53b3ff';
   this.name = cname;
   this.active = false;
 
@@ -42,8 +42,8 @@ CountryDots = function (csize,bsize,di,cname) {
     var y = this.y+this.h/2;
     var r = this.w;
     var grad = this.context.createRadialGradient(x,y,0,x,y,r);
-    grad.addColorStop(0.1, '#b441ce');
-    grad.addColorStop(0.6, '#8134a1');
+    grad.addColorStop(0.1, '#53b3ff');
+    grad.addColorStop(0.6, '#1082de');
     grad.addColorStop(0.9, 'rgba(41,41,41,0)');
     this.context.fillStyle = grad;
     this.context.fillRect(x-r,y-r,r*2,r*2);

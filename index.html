@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>My Friends World</title>
+  <title>A world of friends</title>
   <meta name="description" content="">
   <meta name="author" content="Yane Frenski">
 
@@ -30,13 +30,17 @@
   <div id="container">
     <header>
 
-      <h1>MY FRIENDS WORLD</h1>
+      <h1>A WORLD OF FRIENDS</h1>
 
       <div id="div-top">
       </div>
 
       <div id="div-fb-but">
         <fb:login-button>Login with Facebook</fb:login-button>
+      </div>
+      
+      <div id="div-switch">
+        <a href="index3d.html" title="Requires Chrome, Firefox 4+ or Safari">SWITCH TO 3D</a>
       </div>
 
     </header>
@@ -67,6 +71,10 @@
         <img src="images/loading2.gif" />
       </div>
       
+      <div id="friendnames">
+        <div id="friendnames_scroll"></div>
+      </div>
+      
       <div id="thediv">
       </div>
       
@@ -87,15 +95,19 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
   
+  <script src="js/safari_check.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
   <script src="js/libs/facebox.js"></script>
   <script src="js/libs/imagesq.js"></script>
   <script src="js/countries.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/FbDataObject.js"></script>
   <script src="js/DrawInterface.js"></script>
   <script src="js/CountryDots.js"></script>
   <script src="js/ProfPictures.js"></script>
+  <script type="text/javascript" src="js/StreamStories.js"></script>
+  <script src="js/StreamBubbles2d.js"></script>
   
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   
@@ -108,7 +120,7 @@
   
     //initiates a connection with the facebook app
     FB.init({ 
-      appId:'173394062703226',
+      appId:'287733858005184',
       cookie:true, 
       status:true,
       xfbml:true,
@@ -116,29 +128,36 @@
       oauth: true
     });
     
-    /* Old - withouth OAuth2 ******************
-    FB.init({ 
-      appId:'173394062703226', cookie:true, 
-      status:true, xfbml:true 
-    });
-    */
-    
     $(document).ready(function($) {
-      //Other elements - the box and the button
-      $.facebox({ div: '#div-waitbox' });
+      if(!$.browser.safari){
+        $.facebox({ div: '#div-waitbox' });
+      }
     });
     
-      
-    FB.login(function(response) {
-      if (response.authResponse) {
-        //there is a session
+    if($.browser.safari){ //For the Safari event problem
+      FB.getLoginStatus(function(response) {
+        if (response.authResponse) {
+          $.facebox({ div: '#div-waitbox' });
           var fbdata = new FbDataObject();
           fbdata.getFbData();
         } else {
-        //user is logged in, but did not grant any permissions
-          $("#div-waitbox").append('<div class="attention_note">You need grant special access to the application</strong>');
         }
-    }, {scope:'publish_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
+      });
+      FB.Event.subscribe("auth.login", function(response) {
+        window.location.reload();
+      });
+    }else{
+      FB.login(function(response) {
+        if (response.authResponse) {
+          //there is a session
+            var fbdata = new FbDataObject();
+            fbdata.getFbData();
+          } else {
+            //user is logged in, but did not grant any permissions
+            $("#div-waitbox").append('<div class="attention_note">You need grant special access to the application</strong>');
+          }
+      }, {scope:'publish_stream,read_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
+    }
     
     
     $('div#div-fb-unpublished').click(function(){
@@ -148,38 +167,15 @@
       var canvasData = canv1.toDataURL("image/png");
       $.ajax({
           type: "POST",
-          url: "sendpic.php?text2="+$('#header-owner-info').html(),
+          url: "sendpic.php?text2="+$('#header-owner-info').html()+'&h=520&w=900&d=2',
           data: canvasData,
           contentType: "application/upload; charset=utf-8",
           success: function(data){
             $('div#div-fb-published').html(data);
           }
       });
-      
-      // var ajax = new XMLHttpRequest();
-      // ajax.open("POST",'sendpic.php',false);
-      // ajax.setRequestHeader('Content-Type', 'application/upload');
-      // ajax.send(canvasData);
     });
-    
-    
-    /* Old - withouth OAuth2 ******************
-    FB.login(function(response) {
-      if (response.session) {
-        //there is a session
-        if (response.perms) {
-          //the user has granted permissions
-          var fbdata = new FbDataObject();
-          fbdata.getFbData();
-        } else {
-        //user is logged in, but did not grant any permissions
-          $("#div-waitbox").append('<div class="attention_note">You need grant special access to the application</strong>');
-        }
-      } else {
-        $("#div-waitbox").append('<div class="attention_note">You need to login to Facebook first</strong>');
-      }
-    }, {perms:'publish_stream,offline_access,user_location,friends_location,user_hometown,friends_hometown'});
-  */
+
   
   //change the UA-XXXXX-X to be your site's ID
    var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];

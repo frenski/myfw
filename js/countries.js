@@ -214,6 +214,7 @@ var country = {
   "Somalia": {"lat": 10.00, "lng": 49.00},
   "South Africa": {"lat": -29.00, "lng": 24.00},
   "South Georgia and South Sandwich Islands": {"lat": -54.30, "lng": -37.00},
+  "South Sudan": {"lat": 4.51, "lng": 31.35},
   "Southern Ocean": {"lat": -60.00, "lng": 90.00},
   "Spain": {"lat": 40.00, "lng": -4.00},
   "Spratly Islands": {"lat": 8.38, "lng": 111.55},

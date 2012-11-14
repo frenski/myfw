@@ -125,7 +125,7 @@ h2{
   font-family:League;
   font-size:30px;
   font-weight:normal;
-  color:#8d00c6;
+  color:#006ec4;
   text-shadow: rgba(255,255,255,0.5) 1px 1px 2px, rgba(0,0,0,0.5) -1px -1px;
   text-transform:uppercase;
   margin:0;
@@ -211,10 +211,55 @@ h4{
   display:none;
 }
 
+#div-switch{
+  position:absolute;
+  top:10px;
+  left:45%;
+  width:105px;
+  height:25px;
+  padding:10px;
+  background: url('../images/switch3d.png') no-repeat 50% 50%;
+  text-align:center;
+}
+
+#div-switch a{
+  position:relative;
+  padding:10px 20px 10px 10px;
+  color:#fff;
+  line-height:30px;
+  font-family:League, Impact, Helvetica, Arial;
+  font-size:18px;
+  text-decoration:none;
+  text-shadow: #000 0 0 2px;
+}
+
 .attention_note{
   color: #8d00c6;
 }
 
+
+#friendnames{
+  color:#fff;
+  position:absolute;
+  left:0;
+  top:65px;
+  border-right:1px solid #006EC4;
+  width:110px;
+  padding:0 10px;
+  height:90%;
+  background:#000;
+  opacity:0.5;
+  font-size:11px;
+  overflow: hidden;
+  display:none;
+}
+
+#friendnames_scroll{
+  padding-top:10px;
+  position:relative;
+  top:10px;
+  overflow: auto;
+}
 
 
 @media all and (orientation:portrait) { 

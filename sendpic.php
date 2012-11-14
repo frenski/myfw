@@ -2,10 +2,16 @@
 
 require 'php-sdk/src/facebook.php';
 
-$width = 900;
-$height = 520;
-$dst_width = 800;
-$dst_height = 600;
+$context = $_GET['d'];
+$width = $_GET['w'];
+$height = $_GET['h'];
+if($context == '2'){
+  $dst_width = 800;
+  $dst_height = 600;
+}else{
+  $dst_width = $width;
+  $dst_height = $height;
+}
 
 //Facebook login
 $facebook = new Facebook(array(
@@ -26,41 +32,40 @@ if(!$user){
     $decoded_data=base64_decode($filter_data);
 
     // Save file.
-    $fp = fopen( 'files/'.$user_profile['id'].'.png', 'wb' );
+    $fp = fopen( 'files/'.$user_profile['id'].'_'.$context.'d.png', 'wb' );
     fwrite( $fp, $decoded_data);
     fclose( $fp );
-  
-    //merges the lines file with the map
-    $map_image = imagecreatefromjpeg('images/themap1.jpg');
-    $lines_image = imagecreatefrompng('files/'.$user_profile['id'].'.png');
-    imagesavealpha($lines_image, false);
-    imagealphablending($lines_image, false);
-    imagecopy($map_image, $lines_image, 0, 0, 0, 0, $width, $height);
     
-    //Adds text
-    $purple = imagecolorallocate($map_image, 141, 0, 198);
-    $darkgray = imagecolorallocate($map_image, 132, 132, 132);
-    $lightgray = imagecolorallocate($map_image, 201, 201, 201);
-    $black = imagecolorallocate($map_image, 50, 50, 50);
-    $text1 = strtoupper($user_profile['name']);
-    $text2 = $_GET['text2'];
-    $font1 = 'css/League-Gothic.otf';
-    $font2 = 'css/arial.ttf';
-    $fontsize1 = 20;
-    $fontsize2 = 10;
-    imagettftext($map_image, $fontsize1, 0, 399, 469, $darkgray, $font1, $text1);
-    imagettftext($map_image, $fontsize1, 0, 401, 471, $lightgray, $font1, $text1);
-    imagettftext($map_image, $fontsize1, 0, 400, 470, $purple, $font1, $text1);
-    imagettftext($map_image, $fontsize2, 0, 401, 486, $lightgray, $font2, $text2);
-    imagettftext($map_image, $fontsize2, 0, 400, 485, $black, $font2, $text2);
+    if($context == '2'){
+      //merges the lines file with the map
+      $map_image = imagecreatefromjpeg('images/themap1.jpg');
+      $lines_image = imagecreatefrompng('files/'.$user_profile['id'].'_'.$context.'d.png');
+      imagesavealpha($lines_image, false);
+      imagealphablending($lines_image, false);
+      imagecopy($map_image, $lines_image, 0, 0, 0, 0, $width, $height);
     
-    imagepng($map_image, 'files/'.$user_profile['id'].'_2d.png',9);
+      //Adds text
+      $purple = imagecolorallocate($map_image, 141, 0, 198);
+      $darkgray = imagecolorallocate($map_image, 132, 132, 132);
+      $lightgray = imagecolorallocate($map_image, 201, 201, 201);
+      $black = imagecolorallocate($map_image, 50, 50, 50);
+      $text1 = strtoupper($user_profile['name']);
+      $text2 = $_GET['text2'];
+      $font1 = 'css/League-Gothic.otf';
+      $font2 = 'css/arial.ttf';
+      $fontsize1 = 20;
+      $fontsize2 = 10;
+      // imagettftext($map_image, $fontsize1, 0, 399, 469, $darkgray, $font1, $text1);
+      // imagettftext($map_image, $fontsize1, 0, 401, 471, $lightgray, $font1, $text1);
+      // imagettftext($map_image, $fontsize1, 0, 400, 470, $purple, $font1, $text1);
+      // imagettftext($map_image, $fontsize2, 0, 401, 486, $lightgray, $font2, $text2);
+      // imagettftext($map_image, $fontsize2, 0, 400, 485, $black, $font2, $text2);
     
-    //deletes the lines file
-    unlink('files/'.$user_profile['id'].'.png');
+      imagepng($map_image, 'files/'.$user_profile['id'].'_'.$context.'d.png',9);
+    }
     
     //uploads the image to Facebook
-    $file_path = 'files/'.$user_profile['id'].'_2d.png';
+    $file_path = 'files/'.$user_profile['id'].'_'.$context.'d.png';
     $facebook->setFileUploadSupport(true);
     $args = array('message' => 'A world of friends');
     $args['image'] = '@' . realpath($file_path);
